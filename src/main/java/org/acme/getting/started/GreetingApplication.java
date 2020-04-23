@@ -1,5 +1,6 @@
 package org.acme.getting.started;
 
+import io.quarkus.runtime.Quarkus;
 import io.quarkus.runtime.QuarkusApplication;
 import io.quarkus.runtime.annotations.QuarkusMain;
 import org.jboss.logging.Logger;
@@ -14,6 +15,10 @@ public class GreetingApplication implements QuarkusApplication {
 
     @Override
     public int run(String... args) throws Exception {
+        if(args.length == 0) {
+            Quarkus.waitForExit();
+            return 0;
+        }
         if (args[0].equals("--help")) {
             LOGGER.info(
                     "\nThis tool helps greet users by their name\n" +
@@ -28,5 +33,9 @@ public class GreetingApplication implements QuarkusApplication {
             LOGGER.info(greetingService.greeting(name));
         } // ... more else if cases for diferent commands
         return 0;
+    }
+
+    public static void main(String[] args) {
+        Quarkus.run(GreetingApplication.class);
     }
 }
