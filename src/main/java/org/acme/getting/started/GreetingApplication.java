@@ -6,18 +6,12 @@ import io.quarkus.runtime.annotations.QuarkusMain;
 import org.acme.getting.started.command.GreetingCommand;
 import org.acme.getting.started.command.QuarkusCommand;
 import org.apache.maven.shared.utils.cli.CommandLineUtils;
-import org.jboss.logging.Logger;
 import picocli.CommandLine;
 
 import javax.inject.Inject;
 
 @QuarkusMain
 public class GreetingApplication implements QuarkusApplication {
-    public static final Logger LOGGER = Logger.getLogger(GreetingApplication.class);
-
-    @Inject
-    QuarkusCommand command;
-
     @Inject
     GreetingCommand greetingCommand;
 
@@ -30,8 +24,8 @@ public class GreetingApplication implements QuarkusApplication {
         if (args.length == 1) {
             args = CommandLineUtils.translateCommandline(args[0]);
         }
-        return new CommandLine(command)
-                .addSubcommand("greet", greetingCommand)
+        return new CommandLine(new QuarkusCommand())
+                .addSubcommand(greetingCommand)
                 .execute(args);
     }
 
