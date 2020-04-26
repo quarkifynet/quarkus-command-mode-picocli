@@ -4,6 +4,7 @@ import io.quarkus.runtime.Quarkus;
 import io.quarkus.runtime.QuarkusApplication;
 import io.quarkus.runtime.annotations.QuarkusMain;
 import org.acme.getting.started.command.GreetingCommand;
+import org.acme.getting.started.command.QuarkusCommand;
 import org.apache.maven.shared.utils.cli.CommandLineUtils;
 import org.jboss.logging.Logger;
 import picocli.CommandLine;
@@ -15,10 +16,10 @@ public class GreetingApplication implements QuarkusApplication {
     public static final Logger LOGGER = Logger.getLogger(GreetingApplication.class);
 
     @Inject
-    GreetingService greetingService;
+    QuarkusCommand command;
 
     @Inject
-    GreetingCommand command;
+    GreetingCommand greetingCommand;
 
     @Override
     public int run(String... args) throws Exception {
@@ -29,7 +30,9 @@ public class GreetingApplication implements QuarkusApplication {
         if (args.length == 1) {
             args = CommandLineUtils.translateCommandline(args[0]);
         }
-        return new CommandLine(command).execute(args);
+        return new CommandLine(command)
+                .addSubcommand("greet", greetingCommand)
+                .execute(args);
     }
 
     public static void main(String[] args) {

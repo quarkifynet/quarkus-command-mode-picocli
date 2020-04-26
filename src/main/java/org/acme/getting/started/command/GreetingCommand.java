@@ -13,7 +13,7 @@ import java.util.concurrent.Callable;
 public class GreetingCommand implements Callable<Integer> {
     public static final Logger LOGGER = Logger.getLogger(GreetingCommand.class);
 
-    @CommandLine.Option(names = {"--greet"}, description = "Specify which user to greet")
+    @CommandLine.Option(names = {"--name"}, description = "Specify which user to greet")
     String name;
 
     @Inject
