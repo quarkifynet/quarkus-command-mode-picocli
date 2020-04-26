@@ -5,6 +5,7 @@ import io.quarkus.runtime.QuarkusApplication;
 import io.quarkus.runtime.annotations.QuarkusMain;
 import org.acme.getting.started.command.GreetingCommand;
 import org.acme.getting.started.command.QuarkusCommand;
+import org.acme.getting.started.command.SetCommand;
 import org.apache.maven.shared.utils.cli.CommandLineUtils;
 import picocli.CommandLine;
 
@@ -14,6 +15,8 @@ import javax.inject.Inject;
 public class GreetingApplication implements QuarkusApplication {
     @Inject
     GreetingCommand greetingCommand;
+    @Inject
+    SetCommand setCommand;
 
     @Override
     public int run(String... args) throws Exception {
@@ -26,6 +29,7 @@ public class GreetingApplication implements QuarkusApplication {
         }
         return new CommandLine(new QuarkusCommand())
                 .addSubcommand(greetingCommand)
+                .addSubcommand(setCommand)
                 .execute(args);
     }
 
